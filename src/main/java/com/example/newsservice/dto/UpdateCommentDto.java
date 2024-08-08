@@ -1,5 +1,4 @@
 package com.example.newsservice.dto;
-
 public class UpdateCommentDto {
     private String content;
 
@@ -10,6 +9,5 @@ public class UpdateCommentDto {
     public void setContent(String content) {
         this.content = content;
     }
-
 
 }

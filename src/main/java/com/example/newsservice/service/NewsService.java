@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,7 +33,12 @@ public class NewsService {
     private EntityMapper mapper;
 
 
-    //Пагинация метод
+    public boolean isAuthor(Long newsId, String username) {
+        News news = newsRepository.findById(newsId).orElseThrow(() -> new RuntimeException("News not found"));
+        return news.getUser().getUsername().equals(username);
+    }
+
+
     public Page<NewsDto> getAllNews(Pageable pageable) {
         return newsRepository.findAll(pageable).map(news -> {
             NewsDto newsDto = mapper.newsToNewsDto(news);
@@ -57,7 +61,7 @@ public class NewsService {
     }
 
 
-    // Фильтрация новостей по категории
+
     public List<NewsDto> getNewsByCategory(Long categoryId) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
@@ -66,7 +70,7 @@ public class NewsService {
                 .collect(Collectors.toList());
     }
 
-    // Фильтрация новостей по пользователю (автору)
+
     public List<NewsDto> getNewsByUser(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -75,7 +79,7 @@ public class NewsService {
                 .collect(Collectors.toList());
     }
 
-    // Фильтрация новостей по категории и пользователю
+
     public List<NewsDto> getNewsByCategoryAndUser(Long categoryId, Long userId) {
         return newsRepository.findByCategoryIdAndUserId(categoryId, userId).stream()
                 .map(mapper::newsToNewsDto)

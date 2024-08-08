@@ -1,6 +1,5 @@
 package com.example.newsservice.dto;
 
-
 import java.time.LocalDateTime;
 
 public class CommentDto {

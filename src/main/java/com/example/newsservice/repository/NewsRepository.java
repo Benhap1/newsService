@@ -11,15 +11,11 @@ import java.util.List;
 
 public interface NewsRepository extends JpaRepository<News, Long>, JpaSpecificationExecutor<News> {
 
-    // Найти новости по ID категории
     List<News> findByCategoryId(Long categoryId);
 
-    // Найти новости по ID пользователя
     List<News> findByUserId(Long userId);
 
-    // Найти новости по ID категории и ID пользователя
     List<News> findByCategoryIdAndUserId(Long categoryId, Long userId);
 
-    // Пагинация новостей
     Page<News> findAll(Pageable pageable);
 }

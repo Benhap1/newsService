@@ -23,7 +23,6 @@ public interface EntityMapper {
     @Mapping(source = "categoryId", target = "category.id")
     News newsDtoToNews(CreateNewsDto createNewsDto);
 
-
     @Mapping(target = "commentCount", expression = "java(news.getComments() != null ? news.getComments().size() : 0)")
     @Mapping(target = "comments", ignore = true)
     NewsDto newsToNewsDto(News news);

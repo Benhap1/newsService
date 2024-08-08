@@ -1,11 +1,5 @@
 package com.example.newsservice.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.List;
-
-
 public class CategoryDto {
     private Long id;
     private String name;

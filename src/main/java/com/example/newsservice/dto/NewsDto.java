@@ -1,9 +1,7 @@
 package com.example.newsservice.dto;
 
-
 import java.time.LocalDateTime;
 import java.util.List;
-
 
 public class NewsDto {
     private Long id;
@@ -14,8 +12,6 @@ public class NewsDto {
     private UserDto user;
     private CategoryDto category;
     private Integer commentCount; // Количество комментариев
-
-
 
     private List<CommentDto> comments;// Список комментариев
 

@@ -1,5 +1,4 @@
 package com.example.newsservice.dto;
-
 public class CreateCommentDto {
     private String content;
     private Long userId;
@@ -29,6 +28,5 @@ public class CreateCommentDto {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
-
 
 }

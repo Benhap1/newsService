@@ -1,7 +1,5 @@
 package com.example.newsservice.dto;
 
-
-
 public class UpdateUserDto {
     private String username;
     private String email;

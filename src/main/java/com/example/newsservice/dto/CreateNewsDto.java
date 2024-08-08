@@ -1,7 +1,5 @@
 package com.example.newsservice.dto;
 
-
-
 public class CreateNewsDto {
     private String title;
     private String content;

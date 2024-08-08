@@ -7,6 +7,7 @@ import com.example.newsservice.mapper.EntityMapper;
 import com.example.newsservice.model.User;
 import com.example.newsservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -22,6 +23,9 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private EntityMapper mapper;
 
     public List<UserDto> getAllUsers() {
@@ -31,24 +35,19 @@ public class UserService {
     }
 
 
-
     public UserDto getUserById(Long id) {
         return userRepository.findById(id)
                 .map(mapper::userToUserDto)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    public UserDto createUser(CreateUserDto createUserDTO) {
-        // Преобразование CreateUserDTO в User
+    public UserDto createUser(CreateUserDto createUserDto) {
         User user = new User();
-        user.setUsername(createUserDTO.getUsername());
-        user.setPassword(createUserDTO.getPassword());
-        user.setEmail(createUserDTO.getEmail());
+        user.setUsername(createUserDto.getUsername());
+        user.setPassword(passwordEncoder.encode(createUserDto.getPassword())); // Шифрование пароля
+        user.setEmail(createUserDto.getEmail());
 
-        // Сохранение пользователя в репозитории
         User savedUser = userRepository.save(user);
-
-        // Преобразование сохраненного пользователя в UserDTO
         return mapper.userToUserDto(savedUser);
     }
 
@@ -67,5 +66,4 @@ public class UserService {
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
-
 }

@@ -28,6 +28,11 @@ public class CommentService {
     @Autowired
     private EntityMapper mapper;
 
+    public boolean isAuthor(Long commentId, String username) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new RuntimeException("Comment not found"));
+        return comment.getUser().getUsername().equals(username);
+    }
+
     public List<CommentDto> getCommentsByNewsId(Long newsId) {
         return commentRepository.findByNewsId(newsId).stream()
                 .map(mapper::commentToCommentDto)

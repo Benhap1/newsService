@@ -1,11 +1,9 @@
 package com.example.newsservice.dto;
 
-
 public class CreateUserDto {
     private String username;
     private String password;
     private String email;
-
     public void setUsername(String username) {
         this.username = username;
     }

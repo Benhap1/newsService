@@ -1,5 +1,4 @@
 package com.example.newsservice.dto;
-
 public class UpdateNewsDto {
     private String title;
     private String content;
