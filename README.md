@@ -30,7 +30,7 @@
 4. **Добавьте пользователя напрямую в базу данных через запрос**:
 ### SQL-запрос:
     ```sql
-    INSERT INTO users (username, password, email)
+    INSERT INTO user (username, password, email)
     VALUES ('admin', 'admin', 'admin@example.com');
     ```
 ---
