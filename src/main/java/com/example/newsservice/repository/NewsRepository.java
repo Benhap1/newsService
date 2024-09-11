@@ -1,4 +1,3 @@
-// NewsRepository.java
 package com.example.newsservice.repository;
 
 import com.example.newsservice.model.News;

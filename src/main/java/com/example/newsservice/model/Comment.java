@@ -2,7 +2,6 @@ package com.example.newsservice.model;
 
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,8 +25,6 @@ public class Comment {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
-
-    // Getters and Setters
 
     public Long getId() {
         return id;

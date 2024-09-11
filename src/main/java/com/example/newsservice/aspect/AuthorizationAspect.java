@@ -30,7 +30,6 @@ public class AuthorizationAspect {
             throw new UnauthorizedException("User is not the author of this news");
         }
     }
-
     @Before("@annotation(com.example.newsservice.aspect.CheckCommentAuthor) && args(commentId,..)")
     public void checkCommentAuthor(Long commentId) {
         String username = request.getUserPrincipal().getName();

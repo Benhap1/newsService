@@ -1,13 +1,16 @@
 package com.example.newsservice.controller;
 
-import com.example.newsservice.dto.UserDto;
+import com.example.newsservice.dto.AssignRoleDto;
 import com.example.newsservice.dto.CreateUserDto;
 import com.example.newsservice.dto.UpdateUserDto;
+import com.example.newsservice.dto.UserDto;
 import com.example.newsservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -18,29 +21,43 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<UserDto> getAllUsers() {
-        return userService.getAllUsers();
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        List<UserDto> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
     }
 
-
     @GetMapping("/{id}")
-    public UserDto getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+        UserDto userDto = userService.getUserById(id);
+        return ResponseEntity.ok(userDto);
     }
 
     @PostMapping
-    public UserDto createUser(@RequestBody CreateUserDto createUserDto) {
-        return userService.createUser(createUserDto);
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<UserDto> createUser(@RequestBody CreateUserDto createUserDto) {
+        UserDto userDto = userService.createUser(createUserDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
     }
 
     @PutMapping("/{id}")
-    public UserDto updateUser(@PathVariable Long id, @RequestBody UpdateUserDto updateUserDto) {
-        return userService.updateUser(id, updateUserDto);
+    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN', 'ROLE_MODERATOR')")
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UpdateUserDto updateUserDto, Authentication authentication) {
+        UserDto userDto = userService.updateUser(id, updateUserDto, authentication);
+        return ResponseEntity.ok(userDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN', 'ROLE_MODERATOR')")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id, Authentication authentication) {
+        userService.deleteUser(id, authentication);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/assign-role")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<Void> assignRole(@RequestBody AssignRoleDto assignRoleDto) {
+        userService.assignRoleToUser(assignRoleDto);
         return ResponseEntity.noContent().build();
     }
 }

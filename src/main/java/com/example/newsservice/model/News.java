@@ -2,9 +2,9 @@ package com.example.newsservice.model;
 
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @NoArgsConstructor
@@ -27,7 +27,6 @@ public class News {
 
     @OneToMany(mappedBy = "news", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
-
 
     @PrePersist
     protected void onCreate() {
@@ -83,6 +82,7 @@ public class News {
         return user;
     }
 
+    // Исправленный метод setUser
     public void setUser(User user) {
         this.user = user;
     }

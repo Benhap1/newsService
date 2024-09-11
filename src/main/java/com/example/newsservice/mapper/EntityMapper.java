@@ -19,7 +19,6 @@ public interface EntityMapper {
     Category categoryDtoToCategory(CategoryDto categoryDTO);
 
     // News
-    @Mapping(source = "userId", target = "user.id")
     @Mapping(source = "categoryId", target = "category.id")
     News newsDtoToNews(CreateNewsDto createNewsDto);
 
